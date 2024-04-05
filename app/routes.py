@@ -79,7 +79,6 @@ def state_mean_request():
     webserver.logger.info(f"Request for state_mean :{data}")
     webserver.job_counter += 1
     webserver.allJobs.append({webserver.job_counter: 'running'})
-    # item = (TaskRunner.state_mean, [data, webserver.data_ingestor])
     item = (TaskRunner.state_mean, (data, webserver.data_ingestor, webserver.job_counter, webserver.allJobs))
 
     webserver.tasks_runner.submit(item)
@@ -98,7 +97,6 @@ def best5_request():
     webserver.logger.info(f"Request for best5 :{data}")
     webserver.job_counter += 1
     webserver.allJobs.append({webserver.job_counter: 'running'})
-    # item = (TaskRunner.best5, [data, webserver.data_ingestor])
     item = (TaskRunner.best5, (data, webserver.data_ingestor, webserver.job_counter, webserver.allJobs))
     
     webserver.tasks_runner.submit(item)
@@ -135,7 +133,6 @@ def global_mean_request():
     webserver.logger.info(f"Request for global_mean :{data}")
     webserver.job_counter += 1
     webserver.allJobs.append({webserver.job_counter: 'running'})
-    # item = (TaskRunner.global_mean, [data, webserver.data_ingestor])
     item = (TaskRunner.global_mean, (data, webserver.data_ingestor, webserver.job_counter, webserver.allJobs))
 
     webserver.tasks_runner.submit(item)
@@ -154,7 +151,6 @@ def diff_from_mean_request():
     webserver.job_counter += 1
     webserver.allJobs.append({webserver.job_counter: 'running'})
     item = (TaskRunner.diff_from_mean, (data, webserver.data_ingestor, webserver.job_counter, webserver.allJobs))
-
     webserver.tasks_runner.submit(item)
     webserver.logger.info(f"Job id for diff_from_mean :{webserver.job_counter}")
 
@@ -172,8 +168,6 @@ def state_diff_from_mean_request():
     webserver.logger.info(f"Request for state_diff_from_mean :{data}")
     webserver.job_counter += 1
     webserver.allJobs.append({webserver.job_counter: 'running'})
-    #print(webserver.allJobs)
-    # item = (TaskRunner.state_dif_from_mean, [data, webserver.data_ingestor])
     item = (TaskRunner.state_dif_from_mean, (data, webserver.data_ingestor, webserver.job_counter, webserver.allJobs))
 
     webserver.tasks_runner.submit(item)
@@ -192,7 +186,6 @@ def mean_by_category_request():
     webserver.logger.info(f"Request for mean_by_category :{data}")
     webserver.job_counter += 1
     webserver.allJobs.append({webserver.job_counter: 'running'})
-    # item = (TaskRunner.state_dif_from_mean, [data, webserver.data_ingestor])
     item = (TaskRunner.mean_by_category, (data, webserver.data_ingestor, webserver.job_counter, webserver.allJobs))
 
     webserver.tasks_runner.submit(item)
@@ -211,9 +204,7 @@ def state_mean_by_category_request():
     webserver.logger.info(f"Request for state_mean_by_category :{data}")
     webserver.job_counter += 1
     webserver.allJobs.append({webserver.job_counter: 'running'})
-    #webserver.tasks_runner.allJobs.append({webserver.job_counter, 'running'})
     webserver.tasks_runner.job_count = webserver.job_counter
-    # item = (TaskRunner.state_dif_from_mean, [data, webserver.data_ingestor])
     item = (TaskRunner.state_mean_by_category, (data, webserver.data_ingestor, webserver.job_counter, webserver.allJobs))
 
     webserver.tasks_runner.submit(item)
@@ -223,7 +214,6 @@ def state_mean_by_category_request():
 @webserver.route('/api/graceful_shutdown', methods=['GET'])
 def graceful_shutdown_request():
     webserver.tasks_runner.shutdown()
-    webserver.shutDown = 1
     webserver.logger.info(f"Request for graceful shutdown: done")
     return jsonify({"graceful_shutdown":"done"}), 200
 
@@ -239,13 +229,6 @@ def num_jobs_request():
         for _, v in elem.items():
             if v == 'running':
                 cnt += 1
-    if cnt == 0:
-        if webserver.shutDown == 1:
-            print('ok')
-            #use something else than sleep
-            Timer(30, os._exit, [os.EX_OK]).start()
-            webserver.logger.info(f"Server will shutdown in 30 seconds")
-            return jsonify({'status':'done', 'data': cnt}), 200
     webserver.logger.info(f"Number of jobs request are: {cnt}")
     return jsonify({'status':'done', 'data': cnt}), 200
 

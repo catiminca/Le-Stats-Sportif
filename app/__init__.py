@@ -16,11 +16,9 @@ webserver.job_counter = 0
 webserver.dir = "./results/"
 os.makedirs(os.path.dirname(webserver.dir), exist_ok=True)
 webserver.allJobs = []
-webserver.shutDown = 0
-
 
 webserver.logger = logging.getLogger('webserver.log')
-handler = RotatingFileHandler('file.log', maxBytes=2000, backupCount=10)
+handler = RotatingFileHandler('file.log', maxBytes=20000, backupCount=10)
 handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s: %(message)s'))
 webserver.logger.setLevel(logging.INFO)
 webserver.logger.addHandler(handler)

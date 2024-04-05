@@ -28,11 +28,4 @@ class DataIngestor:
                     self.allData[row[8]].append(row)
                 else:
                     self.allData[row[8]] = [row]
-            #print(self.allData["Percent of adults aged 18 years and older who have an overweight classification"])
             
-            
-            
-# if __name__=='__main__':
-#     cv = DataIngestor("../nutrition_activity_obesity_usa_subset.csv")
-#    # print(cv.allData, len(cv.allData))
-
