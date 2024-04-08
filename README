@@ -1,0 +1,33 @@
+Nume: Minca Ecaterina-Ioana
+Grupă: 334CAb
+
+Tema:
+Tema a constat in implementarea unui server care gestioneaza diferite request-uri de
+obtinere a unor statistici bazate pe un fisier de tip csv.
+
+Organizare:
+ThreadPool-ul mi l-am creat prin clasa ThreadPool, in care am 2 metode folosite si
+de un ThreadPoolExecutor, adica cea de submit in care task-urile noi intra in coada
+si cea de shutdown in care se termina procesarea astfel: cu ajutorul unui Event se va anunta
+graceful-shutdown, iar atunci thread-urile termina task-urilor din coada si apoi se vor opri.
+Job-urile le retin intr-o coada(Queue), care este thread-safe. Clasa TaskRunner e cea
+care implementeaza ce face un thread si aici am decis sa implementez si functiile de
+calculare a statisticilor.
+Retin, de asemenea, si toate job-urile si cu statusul lor pe care atunci cand il pun in
+coada il marchez ca fiind 'running' si apoi la terminare il marchez ca 'done' in functia
+de run a thread-ului. Din routes.py practic, la nou un nou request, se va adauga acel
+task in coada si acesta nu se va astepta sa fie terminat in functia aceea, ci aceea 
+doar va returna job_id-ul corespunzator acelui request.
+
+De asemenea, am realizat pentru unittesting un nou fisier csv, folosindu-ma de 2 intrebari
+si 6 state pentru a testa functionalitatile.
+
+Detalii implementare si resurse:
+Am implementat toate functionalitatile cerute in enunt, inclsiv unittests, logging.
+Consider ca dupa aceasta tema m-am mai acomodat sa scriu cod in python(nu am prea avut
+pana acum aceasta ocazie si desi a trebuit sa caut orice mic detaliu despre cum se scrie
+x in python ca nu imi veneau asa natural, m-a invatat multe). Am folosit din laboratoare
+partea de sincronizare cu Event si Queue si, de asemenea, si link-urile lasate despre
+flask, unittesting si logging au fost foarte utile.
+
+Git-> am lasat fisier cu ce afiseaza git log in fisierul git_log.txt
